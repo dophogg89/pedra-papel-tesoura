@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello, World!</title>
+<!-- Quero colocar a cor de fundo (backgraund-color) em exadecimal não lembro -->
+<!-- CSS3-->
+    <style> 
+    * {
+        text-align: center;
+        font-family: Arial, sans-serif;
+        background-color: rgb(158, 158, 158);
+    }
+    .jogo {
+        margin: auto;
+    }
+    .selecao {
+        opacity: 0.2;
+    }
+    .selecao:hover {
+        opacity: 1;
+    }
+    .resultado img {
+        zoom: 65%;
+        margin: auto;
+    }
+    .pointer {
+        cursor: pointer;
+    }
+    </style>
+</head>
+<body>
+    <h1 id="titulo">Jogo JoKenPô</h1>
+    <div class="jogo">
+        <img id="papel" class="pointer selecao" src="papel.png" alt="">
+        <img id="pedra" class="pointer selecao" src="pedra.png" alt="">
+        <img id="tesoura" class="pointer selecao" src="tesoura.png" alt="">
+        <hr>
+    </div>
+    <div class="resultado">
+        <h2></h2>
+        <span class="jogada"></span>
+        <span class="jogada_pc"></span>
+    </div>
+<!--JavaScript-->
+    <script>
+//.GetElementById captura os elementos com id;
+        let papel = document.getElementById("papel");
+        let pedra = document.getElementById("pedra");
+        let tesoura = document.getElementById("tesoura");
+//.QuerrySelector - Seletor via css
+        let resultado = document.querySelector("h2");
+        let jogadaUser = document.querySelector(".jogada");
+        let jogadaPc = document.querySelector(".jogada_pc");
+//Contador de pontos
+        var pontoV = 0;
+        var pontoP = 0;
+        function jogar(){
+//Limpa os spans - "atributo";
+            jogadaUser.innerHTML = "";
+            jogadaPc.innerHTML = "";
+//jogada do usuário;
+            let User = this.id;
+            jogadaUser.appendChild(this.cloneNode());
+/*jogada do computador, onde:
+1 == papel;
+2 == pedra;
+3 == tesoura;
+*/
+           let sorteio = Math.ceil(Math.random()*3);
+           let pc;
+//.appendChild recorta a imagem de um lugar e cola em outro
+           if(sorteio == 1){
+               pc = "papel";
+               jogadaPc.appendChild(papel.cloneNode());
+           }
+//.cloneNode copia a imagem para outro lugar
+           else if(sorteio == 2){
+               pc = "pedra";
+               jogadaPc.appendChild(pedra.cloneNode());
+           }
+           else{
+               pc = "tesoura";
+               jogadaPc.appendChild(tesoura.cloneNode());
+           }
+//regras do jogo
+           if(User == "papel" && pc == "pedra"){
+               pontoV++;
+               resultado.innerHTML = "Ganhou " +pontoV+ "x -- Você ganhou!!! " + " -- Perdeu " +pontoP+"x";
+           }
+           else if(User == "pedra" && pc == "tesoura"){
+                pontoV++;
+               resultado.innerHTML = "Ganhou " +pontoV + "x -- Você ganhou!!! " + " -- Perdeu " +pontoP+"x";
+           }
+           else if(User == "tesoura" && pc == "papel"){
+                pontoV++;
+               resultado.innerHTML = "Ganhou " +pontoV + "x -- Você ganhou!!! " + " -- Perdeu " +pontoP+"x";
+           }
+           else if(User == pc){
+             pontoP++
+               resultado.innerHTML = "Você empatou :(";
+           }
+           else{
+               pontoP++;
+               resultado.innerHTML = "Você perdeu :(";
+           }
+        }
+//Ao clicar em qualquer imagem, chama a função jogar
+        papel.addEventListener("click", jogar);
+        pedra.addEventListener("click", jogar);
+        tesoura.addEventListener("click", jogar);
+    </script>
+</body>
+</html>
